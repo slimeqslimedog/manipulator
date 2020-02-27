@@ -1,0 +1,1425 @@
+// GENERAL RULES ABOUT THE GRAPH:
+//  -- Make sure there are no cycles that can increment/decrement vars forever
+//  -- Make sure there are no deadends
+//      -- This also means ensuring vars don't preclude advancing
+//
+// NODE COLORS AND STYLES:
+//  If any node meets more than one color criteria, the one highest in this
+//  list takes precedence.
+//  -- THICK SOLID outlines have been published
+//  -- THICK DASHED outlines have been drafted but not published
+//  -- THIN DASHED outlines have not been drafted yet
+//  -- PINK (lightpink) are the evil route
+//  -- GREEN (palegreen1) are positive social nodes
+//  -- RED (red) are Level 3 manipulations
+//  -- ORANGE (orange) are Level 2 manipulations
+//  -- YELLOW (yellow1) are Level 1 manipulations
+//  -- LIGHT YELLOW (palegoldenrod) are manipulations that do not change levels
+//  -- WHITE are mostly neutral nodes
+
+// Helpful conditional phrases
+// ===========================================================================
+// Choose honorific based on gender:
+//    {if female == true}Miss{else}Mr.{endif} {last_name}
+//
+
+digraph manipulator {
+  ranksep=0.70;
+  nodesep=0.35;
+
+  node [
+    shape=rectangle;
+    style="filled,rounded";
+    fillcolor=white;
+    fontsize=12;
+    margin="0.11,0.055";
+    penwidth=2;
+  ]
+
+  edge [
+    fontsize=10;
+  ]
+
+  subgraph "cluster_sunday" {
+    label = "Sunday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Written Chapters" {
+      "intro" [label="Introduction\n\ncorruption = 0", URL="https://chyoa.com/chapter/Introduction.681531"];
+
+      "boy" [label="a tall, thin boy\n\nfemale = false", URL="https://chyoa.com/chapter/You%27re-a-tall%2C-thin-boy.681552"];
+      "intro" -> "boy";
+
+      "girl" [label="a tall, thin girl\n\nfemale = true", URL="https://chyoa.com/chapter/You%E2%80%99re-a-tall%2C-thin-girl.681684"];
+      "intro" -> "girl";
+
+      "downstairs" [label="head downstairs", URL="https://chyoa.com/chapter/You-head-downstairs.681564"];
+      "boy" -> "downstairs";
+      "girl" -> "downstairs";
+
+      "package" [label="check out the mysterious package first", URL="https://chyoa.com/chapter/You-check-out-the-mysterious-package-first.681600"];
+      "downstairs" -> "package";
+
+      "curiosity" [label="curiosity gets the better of you\n\nwearing_device = true", URL="https://chyoa.com/chapter/Your-curiosity-gets-the-better-of-you.681607"];
+      "package" -> "curiosity";
+
+      "kitchen" [label="head into the kitchen\n\nfirst_met_mother = true", fillcolor="palegoldenrod", URL="https://chyoa.com/chapter/You-head-into-the-kitchen.681609"];
+      "curiosity" -> "kitchen";
+
+      "computer" [label="screw around on the computer", URL="https://chyoa.com/chapter/You-screw-around-on-the-computer%2C-as-usual.681619"];
+      "kitchen" -> "computer";
+
+      "ramen" [label="make ramen and 7-Up", URL="https://chyoa.com/chapter/You-make-yourself-some-ramen-noodles-and-7-Up.681623"];
+      "computer" -> "ramen";
+
+      "sister" [label="awoken by a door slamming\n\nfirst_met_sister = true", fillcolor="palegoldenrod", URL="https://chyoa.com/chapter/You%27re-suddenly-awoken-by-a-door-slamming.681625"];
+      "ramen" -> "sister";
+
+      "upstairs" [label="skip dinner and head for room", URL="https://chyoa.com/chapter/You-skip-dinner-and-head-straight-for-your-room.681634"];
+      "sister" -> "upstairs";
+    }
+
+    subgraph "Unwritten Chapters" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=2.0;
+      ]
+
+      "paranoia" [label="paranoia gets the better of you"];
+      "package" -> "paranoia";
+    }
+  }
+
+  subgraph "cluster_monday" {
+    label = "Monday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Written Chapters" {
+      "monday wake" [label="wake up next morning", URL="https://chyoa.com/chapter/You-wake-up-the-next-morning%2C-and-get-ready-for-school--%28Male%29.681644"];
+      "upstairs" -> "monday wake";
+
+      "monday amanda" [label="walk is uneventful\n\nfirst_met_amanda = true\namanda_slevel = 1", fillcolor="palegoldenrod", URL="https://chyoa.com/chapter/Your-walk-to-the-school-is-uneventful.681667"];
+      "monday wake" -> "monday amanda";
+
+      // Math class takes place in a small lecture hall, roughly shaped like a
+      // pie wedge, with terraced seating that isn't extremely inclined.
+      "monday kincaid" [label="head to first class\n\nfirst_met_kincaid = true", URL="https://chyoa.com/chapter/You-head-to-your-first-class.682100"];
+      "monday amanda" -> "monday kincaid";
+
+      "monday kincaid loosen up" [label="wish she would loosen up a bit", fillcolor="palegoldenrod", URL="https://chyoa.com/chapter/You-just-wish-she-could-loosen-up%2C-a-tiny-bit.682108"];
+      "monday kincaid" -> "monday kincaid loosen up";
+
+      "monday kincaid daydream" [label="close your eyes and think about her", URL="https://chyoa.com/chapter/You-close-your-eyes-and-think-about-her.682134"];
+      "monday kincaid" -> "monday kincaid daydream";
+
+      "monday smita vanilla" [label="*carefully* head to algo class\n\nfirst_met_smita = true\nsmita_slevel = 1", URL="https://chyoa.com/chapter/You-%2Acarefully%2A-head-to-your-algorithms-class.682140"];
+      "monday kincaid loosen up" -> "monday smita vanilla";
+
+      "monday smita flash" [label="head to algo class\n\nfirst_met_smita = true\nsmita_panty_flash = true", fillcolor="palegoldenrod", URL="https://chyoa.com/chapter/You-head-to-your-algorithms-class.682150"];
+      "monday kincaid daydream" -> "monday smita flash";
+
+      "monday smita flash forget" [label="make her forget about it\n\nfirst_learned_smitas_name = true\nsmita_slevel = 2", fillcolor="palegreen1", URL="https://chyoa.com/chapter/You-make-her-forget-about-the-whole-thing.682334"];
+      "monday smita flash" -> "monday smita flash forget";
+
+      "monday smita flash panic" [label="panic but do nothing\n\nsmita_mlevel = 1\nc1 = true", fillcolor="yellow1", URL="https://chyoa.com/chapter/You-panic%2C-knowing-this-is-going-to-have-consequences.682335"];
+      "monday smita flash" -> "monday smita flash panic";
+
+      "monday smita waylaid" [label="stand with your back against the wall, facing a glaring Indian girl", URL="https://chyoa.com/chapter/You-stand-with-your-back-against-the-wall%2C-facing-a-glaring-Indian-girl.684624"];
+      "monday smita flash panic" -> "monday smita waylaid";
+
+      "monday data structures" [label="arrive at data structures class\n\nfirst_met_emily = true\nemily_slevel = 1", URL="https://chyoa.com/chapter/You-arrive-at-your-Data-Structures-class.682154"];
+      "monday smita vanilla" -> "monday data structures";
+      "monday smita flash forget" -> "monday data structures";
+      "monday smita waylaid" -> "monday data structures";
+
+      "monday emily subtle manip" [label="agree with her that it's awfully hot in here", fillcolor="yellow1", URL="https://chyoa.com/chapter/You-agree-that-it-is-incredibly-hot-in-here.683284"];
+      "monday data structures" -> "monday emily subtle manip";
+
+      "monday emily blatant manip" [label="wonder if you can see more of her skin\n\nemily_knows = true\nemily_wary = true\nemily_slevel = 2", fillcolor="palegreen1", URL="https://chyoa.com/chapter/You-wonder-if-you-can-find-a-way-to-see-more-of-her-skin.686125"];
+      "monday data structures" -> "monday emily blatant manip";
+
+      "monday emily run after her" [label="run after her and spill the beans to Emily about the Manipulator\n\nemily_knows = true\nemily_curious = true\nemily_flashed_you = true\nemily_slevel = 2", fillcolor="palegreen1", URL="https://chyoa.com/chapter/If-you-go%2C-there-will-be-trouble.686091"];
+      "monday emily subtle manip" -> "monday emily run after her";
+
+      "monday emily return to class" [label="return to class with Emily", URL="https://chyoa.com/chapter/You-and-Emily-return-to-class.688916"];
+      "monday emily run after her" -> "monday emily return to class";
+      "monday emily blatant manip" -> "monday emily return to class";
+
+      "monday bump into amanda" [label="play it safe and head home for lunch\n(bump into Amanda)", URL="https://chyoa.com/chapter/Overwhelmed%2C-you-decide-to-head-home.689866"];
+      "monday emily return to class" -> "monday bump into amanda";
+
+      "monday bump into smita" [label="see the Indian girl standing a foot away from your face\n\nfirst_learned_smitas_name = true", URL="https://chyoa.com/chapter/see-the-Indian-girl-standing-a-foot-away-from-your-face.689887"];
+      "monday bump into amanda" -> "monday bump into smita" [label="smita_mlevel == 1"];
+
+      "monday home for lunch" [label="arrive at home for lunch", URL="https://chyoa.com/chapter/Thankfully%2C-you-arrive-at-your-house.690910"];
+      "monday bump into amanda" -> "monday home for lunch" [label="smita_mlevel == 0"];
+      "monday bump into smita" -> "monday home for lunch";
+    }
+
+    subgraph "Unwritten Chapters" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=2.0;
+      ]
+
+      "monday emily stay in class" [label="stay in class\n(yeah, that doesn't last long)"];
+      "monday emily subtle manip" -> "monday emily stay in class";
+      "monday emily stay in class" -> "monday emily run after her";
+
+      // Oops, wrote myself into a bit of a conundrum here. Sister gets home,
+      // what do you do? Looks like I might be pushing some stuff up a bit...
+      "monday greet sister" [label="greet your sister who has arrived home from school"];
+      "monday home for lunch" -> "monday greet sister";
+
+      // You can decide not to manipulate your sister, and just talk with her
+      // until your mother gets home...
+      "monday sister talk" [label="have a conversation with your sister"];
+      "monday greet sister" -> "monday sister talk";
+
+      // ... or you have the option here of making your sister into a casual
+      // home nudist. If you do, when your mother gets home, she's... a bit
+      // surprised.
+      "monday sister nudist" [label="convince your sister to shed the clothes\n\nsister_mlevel = 1\nsister_nudist = true\nfamily_nlevel = 1\nc1 = true", fillcolor=yellow];
+      "monday greet sister" -> "monday sister nudist";
+
+      // You have the option of pushing your mom into accepting it...
+      "monday mother accept" [label="convince your mother to accept your sister's choice", fillcolor=palegoldenrod];
+      "monday sister nudist" -> "monday mother accept";
+
+      // ...or having her join in.
+      "monday mother nudist" [label="convince your mother to also shed the clothes\n\nmother_mlevel = 1\nmother_nudist = true\nfamily_nlevel = 2\nc1 = true", fillcolor=yellow];
+      "monday sister nudist" -> "monday mother nudist";
+
+      // Then you either have a (relatively) normal dinner... (if your sister is
+      // a nudist, your mom insists on clothing at the dinner table)
+      "monday normal dinner" [label="have a nice dinner together"];
+      "monday sister talk" -> "monday normal dinner";
+      "monday mother accept" -> "monday normal dinner";
+
+      // Or an... unusual one..
+      "monday nude dinner" [label="have a very unusual dinner together"];
+      "monday mother nudist" -> "monday nude dinner";
+
+      "monday after dinner" [label="excuse yourself and go upstairs\n\nfriend_informed = true"];
+      "monday normal dinner" -> "monday after dinner";
+      "monday nude dinner" -> "monday after dinner";
+    }
+
+    subgraph "Rough Plans" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=1.0;
+      ]
+
+      edge [
+        style="dashed";
+      ]
+
+    }
+  }
+  subgraph "cluster_tuesday" {
+    label = "Tuesday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Rough Plans" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=1.0;
+      ]
+
+      edge [
+        style="dashed";
+      ]
+
+      "tuesday wakeup" [label="wake up the next morning, and\nhead down for your morning routine"];
+      "monday after dinner" -> "tuesday wakeup" [label="family_nlevel < 2"];
+
+      "tuesday wakeup nude" [label="wake up the next morning, and\nhead down for your morning routine"];
+      "monday after dinner" -> "tuesday wakeup nude" [label="family_nlevel == 2"];
+
+      // I've decided that at this point, your sister will walk into the
+      // bathroom either based on your conversation, or on the fact that she has
+      // no modesty due to being a nudist now. So that makes things easier.
+
+      "tuesday walk to school" [label="grab your bag and head out to school\nand run into an unwelcome face"];
+      "tuesday wakeup" -> "tuesday walk to school";
+      "tuesday wakeup nude" -> "tuesday walk to school";
+
+      "ignore brett" [label="do your best to ignore Brett as usual"];
+      "tuesday walk to school" -> "ignore brett";
+
+      "tell brett to leave" [label="tell Brett to get out of your face\n\nbrett_confronted = true", fillcolor="yellow1"];
+      "tuesday walk to school" -> "tell brett to leave";
+
+      "shove brett into the wall" [label="shove brett into the wall\n\ndevice_malfunction = true\nbrett_confronted = true"];
+      "tuesday walk to school" -> "shove brett into the wall";
+
+      "brett spills the beans" [label="make Brett tell you why he torments you\n\nhell_bully = true\nbrett_confronted = true\nbrett_embarrassed = true", fillcolor="palegoldenrod"];
+      "tuesday walk to school" -> "brett spills the beans";
+
+      "brett gets introspective" [label="tell Brett he needs to do some heavy thinking\n\ngood_deeds + 2\nhell_bully = true\nbrett_confronted = true\nbrett_introspective = true"];
+      "tuesday walk to school" -> "brett gets introspective";
+
+      "tuesday library sit alone" [label="arrive at library, see Amanda, sit alone"];
+      "ignore brett" -> "tuesday library sit alone";
+
+      "tuesday library sit with amanda" [label="arrive at the library, sit next to Amanda\n\namanda_slevel = 2", fillcolor="palegreen1"];
+      "tell brett to leave" -> "tuesday library sit with amanda";
+      "brett spills the beans" -> "tuesday library sit with amanda";
+      "brett gets introspective" -> "tuesday library sit with amanda";
+
+      "make amanda kiss you" [label="convince Amanda to kiss you\n\namanda_mlevel = 1\nc1 = true", fillcolor="yellow1"];
+      "tuesday library sit with amanda" -> "make amanda kiss you";
+
+      "make amanda walk over and kiss you" [label="convince Amanda to walk up to you and kiss you\n\namanda_mlevel = 1\nc1 = true", fillcolor="yellow1"]
+      "tuesday library sit alone" -> "make amanda walk over and kiss you";
+
+      "tuesday health class" [label="head to health class\n\nfirst_met_reynolds = true\nreynolds_rumors = false"];
+      "tuesday library sit with amanda" -> "tuesday health class";
+      "tuesday library sit alone" -> "tuesday health class";
+      "make amanda kiss you" -> "tuesday health class";
+      "make amanda walk over and kiss you" -> "tuesday health class";
+
+      "tuesday normal health class" [label="decide not to screw around"];
+      "tuesday health class" -> "tuesday normal health class";
+
+      "tuesday explicit health class" [label="decide to make the class more interesting", fillcolor="palegoldenrod"];
+      "tuesday health class" -> "tuesday explicit health class";
+
+      "convince health class normal" [label="convince the class that the health class was normal\n\nreynolds_rumors = true\nreynolds_mlevel = 1\namanda_mlevel = 1\namanda_filthy_mouth = true\nc1 = true", fillcolor="yellow1"];
+      "tuesday explicit health class" -> "convince health class normal";
+
+      "cause health class forget" [label="cause the class to forget what happened", fillcolor="palegoldenrod"]
+      "tuesday explicit health class" -> "cause health class forget";
+
+      "tell the trio to ditch their underwear" [label="tell the Trio that they shouldn't be wearing underwear\n\ntrio_mlevel = 1\nc1 = true", fillcolor="yellow1"]
+      "convince health class normal" -> "tell the trio to ditch their underwear";
+
+      "tuesday free period" [label="relax on the quad during your break"];
+      "tuesday normal health class" -> "tuesday free period";
+      "convince health class normal" -> "tuesday free period";
+      "tell the trio to ditch their underwear" -> "tuesday free period";
+      "cause health class forget" -> "tuesday free period";
+
+      "avoid sarah" [label="feel bad for her but don't get involved"];
+      "tuesday free period" -> "avoid sarah";
+
+      "introduce self to sarah" [label="introduce yourself and ask what's wrong\n\nfirst_met_sarah = true"];
+      "tuesday free period" -> "introduce self to sarah";
+
+      "sarah open ear" [label="tell her you're available if she needs to talk\n\nsarah_lent_ear = true\ngood_deeds + 1"];
+      "introduce self to sarah" -> "sarah open ear";
+
+      "sarah try to help" [label="tell her you'd like to help if you can"];
+      "introduce self to sarah" -> "sarah try to help";
+
+      "sarah dumb advice" [label="remind her that bullies have low self-esteem\n\nsarah_bad_advice = true"];
+      "sarah try to help" -> "sarah dumb advice";
+
+      "sarah cognitive therapy" [label="ask her why the opinions of morons matter to her\n\nsarah_helped = true\ngood_deeds + 1"];
+      "sarah try to help" -> "sarah cognitive therapy";
+
+      "sarah confidence boost" [label="tell her she seems smart and beautiful\n\nsarah_helped = true\ngood_deeds + 2"];
+      "sarah try to help" -> "sarah confidence boost";
+
+      "sarah ego overload" [label="tell her that's bullshit and she should kick his ass\n\nsarah_mlevel = 1\nsarah_egomaniac = true\nc1 = true", fillcolor="yellow1"];
+      "sarah try to help" -> "sarah ego overload";
+
+      "tuesday data structures" [label="head to data structures class\n\n(TODO: flesh out Emily stuff)"];
+      "avoid sarah" -> "tuesday data structures";
+      "sarah open ear" -> "tuesday data structures";
+      "sarah dumb advice" -> "tuesday data structures";
+      "sarah cognitive therapy" -> "tuesday data structures";
+      "sarah confidence boost" -> "tuesday data structures";
+      "sarah ego overload" -> "tuesday data structures";
+
+      "tuesday lunch" [label="have lunch in the cafeteria with Amanda\n(uses conditional clauses to summarize the morning)"];
+      "tuesday data structures" -> "tuesday lunch";
+
+      "tuesday art" [label="head to figure drawing\n\namy_slevel = 1\ndaniel_slevel = 1\nlewis_slevel = 1\nfirst_met_amy = true\nfirst_met_daniel = true\nfirst_met_lewis = true"];
+      "tuesday lunch" -> "tuesday art";
+
+      "tuesday art lewis" [label="flirt with Ms. Lewis\n\nlewis_slevel = 2"]
+      "tuesday art" -> "tuesday art lewis";
+
+      "tuesday art discuss" [label="talk with Daniel, then Amy\n\namy_slevel = 2\ndaniel_slevel = 2\ngood_deeds + 1"];
+      "tuesday art" -> "tuesday art discuss";
+      "tuesday art lewis" -> "tuesday art discuss";
+
+      "tuesday art amy" [label="flirt with Amy\n\namy_slevel = 2\ndaniel_jealous = true"];
+      "tuesday art" -> "tuesday art amy" [label="female == false"];
+      "tuesday art lewis" -> "tuesday art amy" [label="female == false"];
+
+      "tuesday art daniel" [label="flirt with Daniel\n\ndaniel_slevel = 2\namy_jealous = true"];
+      "tuesday art" -> "tuesday art daniel" [label="female == true"];
+      "tuesday art lewis" -> "tuesday art daniel" [label="female == true"];
+
+      "tuesday art makeout" [label="cause Amy and Daniel to fall deeply in love\n\namy_mlevel = 1\ndaniel_mlevel = 1\nc1 = true", fillcolor="palegoldenrod"];
+      "tuesday art" -> "tuesday art makeout";
+      "tuesday art lewis" -> "tuesday art makeout";
+
+      "tuesday evening" [label="head home for the day and have dinner with the family"];
+      "tuesday art" -> "tuesday evening";
+      "tuesday art lewis" -> "tuesday evening";
+      "tuesday art discuss" -> "tuesday evening";
+      "tuesday art amy" -> "tuesday evening";
+      "tuesday art daniel" -> "tuesday evening";
+      "tuesday art makeout" -> "tuesday evening";
+
+      // At home:
+      // If sister_nudist == false, you just have dinner
+      "tuesday evening dinner" [label="have dinner with the family"];
+      "tuesday evening" -> "tuesday evening dinner" [label="sister_nudist == false"];
+
+      // If sister_nudist == true:
+      //   Your mother asks you to go downstairs to get her. You hear moans
+      //   coming from inside her room. You can choose to either discreetly
+      //   knock on the door, *or* manipulate her into being okay with sexual
+      //   displays in front of people at home. The latter puts you at C2.
+      "tuesday evening sister moans" [label="go downstairs to get your sister"];
+      "tuesday evening" -> "tuesday evening sister moans" [label="sister_nudist == true"];
+
+      "tuesday evening sister knock" [label="discreetly knock on the door"];
+      "tuesday evening sister moans" -> "tuesday evening sister knock";
+
+      "tuesday evening sister manip 2" [label="convince your sister to be open about her sexuality (voy-mast/F)\n\nsister_mlevel = 2\nc2 = true", fillcolor=yellow];
+      "tuesday evening sister moans" -> "tuesday evening sister manip 2";
+
+      // THEN, you have either the usual dinner, or nude dinner depending on
+      // previous events.
+
+      "tuesday evening sister knock" -> "tuesday evening dinner" [label="family_nlevel < 2"];
+      "tuesday evening sister manip 2" -> "tuesday evening dinner" [label="family_nlevel < 2"];
+
+      "tuesday evening dinner nude" [label="have another meal in the buff"];
+      "tuesday evening sister knock" -> "tuesday evening dinner nude" [label="family_nlevel == 2"];
+      "tuesday evening sister manip 2" -> "tuesday evening dinner nude" [label="family_nlevel == 2"];
+
+      // After dinner, you watch TV for a bit, while your sister goes back to
+      // her room. If mother_nudist == false, nothing happens, and eventually
+      // you return to your room for bed.
+      "tuesday evening tv" [label="watch TV for a bit before bed"];
+      "tuesday evening dinner" -> "tuesday evening tv";
+
+      // If mother_nudist == true, you watch TV for a bit; and then when you
+      // turn the TV off, you hear faint moans coming from her room.
+      "tuesday evening mother moans" [label="hear unusual noises from somewhere"];
+      "tuesday evening dinner nude" -> "tuesday evening mother moans"
+
+      // You can choose to ignore it...
+      "tuesday evening mother ignore" [label="allow her to have some privacy"];
+      "tuesday evening mother moans" -> "tuesday evening mother ignore";
+
+      // ...choose to listen to her in secret...
+      "tuesday evening mother listen" [label="sneak up to her door and listen"];
+      "tuesday evening mother moans" -> "tuesday evening mother listen";
+
+      // ...or, if sister_mlevel = 2, choose to manipulate her (since you
+      // already did it with your sister, after all).
+      "tuesday evening mother manip 2" [label="convince her to be open about her sexuality\n\nmother_mlevel = 2\nfamily_nlevel = 3\nc2 = true", fillcolor=yellow];
+      "tuesday evening mother moans" -> "tuesday evening mother manip 2" [label="sister_mlevel == 2"];
+
+      "tuesday head to bed" [label="go up to your room\n\n(may add to this later)"];
+      "tuesday evening tv" -> "tuesday head to bed";
+      "tuesday evening mother ignore" -> "tuesday head to bed";
+      "tuesday evening mother listen" -> "tuesday head to bed";
+      "tuesday evening mother manip 2" -> "tuesday head to bed";
+    }
+  }
+  subgraph "cluster_wednesday" {
+    label = "Wednesday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Rough Plans" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=1.0;
+      ]
+
+      edge [
+        style="dashed";
+      ]
+
+      subgraph "cluster_home_morning" {
+        label = "Home - Morning";
+        fillcolor = gray85;
+
+        "wednesday wake up" [label="wake up refreshed and head downstairs\n(mirror text depends on good_deeds, corruption)"];
+        "tuesday head to bed" -> "wednesday wake up";
+
+        // So... at this point sister could be M0, M1, or M2.
+        // At M0, she comes in and starts undressing (while you turn your back)
+        "wednesday morning m0" [label="go through your morning routine\nsister comes in, starts undressing"];
+        "wednesday wake up" -> "wednesday morning m0" [label="sister_mlevel == 0"];
+
+        // At M1, she comes in already nude.
+        "wednesday morning m1" [label="go through your morning routine\nsister comes in, nude"];
+        "wednesday wake up" -> "wednesday morning m1" [label="sister_mlevel == 1"];
+
+        // You really, really want to jack off, so you have the option of
+        // "convincing" her to become M2. Otherwise you can choose to abstain
+        // for the time being.
+        "wednesday morning manip to m2" [label="demonstrate benefits of sex-positivity (exhib-mast/M; voy-mast/F)\n\nsister_mlevel == 2\nc2 = true", fillcolor=yellow];
+        "wednesday morning m1" -> "wednesday morning manip to m2";
+
+        // At M2, *she* is the one who needs to get off, and she does in the
+        //        shower. You can't help but do the same.
+        "wednesday morning m2" [label="go through your morning routine\nsister comes in, nude (exhib-mast/M; voy-mast/F)"];
+        "wednesday wake up" -> "wednesday morning m2" [label="sister_mlevel == 2"];
+
+        // If you didn't confront Brett, you take off early as usual in an
+        // attempt to avoid him. (Unless you, ahem, *dallied* in the bathroom,
+        // in which case you're gonna be late anyway.)
+        "wednesday head out the door quick" [label="grab granola bar and head out the door"];
+        "wednesday morning m0" -> "wednesday head out the door quick" [label="brett_confronted == false"];
+        "wednesday morning m1" -> "wednesday head out the door quick" [label="brett_confronted == false"];
+
+        // Otherwise you head into the kitchen...
+        // If family_nlevel is 0 or 1, it's a normal breakfast.
+        "wednesday breakfast" [label="head to the kitchen for breakfast"];
+        "wednesday morning m0" -> "wednesday breakfast" [label="brett_confronted == true"];
+        "wednesday morning m1" -> "wednesday breakfast" [label="brett_confronted == true\nfamily_nlevel < 2"];
+
+        // If family_nlevel is 2, it's a breakfast with a nude mother. (You two
+        // are dressed, since you're heading to school...)
+        "wednesday breakfast nude" [label="head to the kitchen for breakfast\n(mother is nude)"];
+        "wednesday morning m1" -> "wednesday breakfast nude" [label="brett_confronted == true\nfamily_nlevel == 2"];
+        "wednesday morning manip to m2" -> "wednesday breakfast nude";
+        "wednesday morning m2" -> "wednesday breakfast nude" [label="family_nlevel == 2"];
+
+        // If family_nlevel is 3, it's a nude breakfast with extremely explicit
+        // sexual conversation.
+        "wednesday breakfast explicit" [label="head to the kitchen for a very *informative* breakfast"];
+        "wednesday morning m2" -> "wednesday breakfast explicit" [label="family_nlevel == 3"];
+
+        "wednesday head out the door" [label="head out the door"];
+        "wednesday breakfast" -> "wednesday head out the door";
+        "wednesday breakfast nude" -> "wednesday head out the door";
+        "wednesday breakfast explicit" -> "wednesday head out the door";
+      }
+
+      subgraph "cluster_classes_morning" {
+        label = "Classes - Morning";
+        fillcolor = gray85;
+
+        "wednesday walk to school early" [label="walk to school early"];
+        "wednesday head out the door quick" -> "wednesday walk to school early";
+
+        "wednesday walk to school later" [label="walk to school later than usual\n(may want another bully encounter here)"];
+        "wednesday head out the door" -> "wednesday walk to school later";
+
+        "wednesday library" [label="arrive at the library and sit with Amanda"];
+        "wednesday walk to school early" -> "wednesday library";
+
+        "wednesday amanda other tutor" [label="you think you know someone who can help\n\ngood_deeds + 1\namanda_looking_for_tutor = true"];
+        "wednesday library" -> "wednesday amanda other tutor" [label="smita_slevel > 1"];
+
+        "wednesday amanda protag tutor" [label="you jokingly offer to tutor her\n\namanda_slevel = 2", fillcolor="palegreen1"];
+        "wednesday library" -> "wednesday amanda protag tutor";
+
+        "wednesday math" [label="head to your calc class"];
+        "wednesday walk to school later" -> "wednesday math";
+        "wednesday amanda other tutor" -> "wednesday math";
+        "wednesday amanda protag tutor" -> "wednesday math";
+
+        "wednesday math nothing" [label="you choose not to screw with people\n(only choice if you haven't done any other Level 1 manipulations)"];
+        "wednesday math" -> "wednesday math nothing";
+
+        "wednesday math pleasure" [label="you decide Miss K deserves a reward for her hard work\n\nkincaid_mlevel = 1\nc1 = true", fillcolor="palegoldenrod"];
+        "wednesday math" -> "wednesday math pleasure";
+
+        "wednesday math tutoring" [label="you start to have some fun with Miss K\n\nkincaid_mlevel = 2\nc2 = true", fillcolor="yellow1"];
+        "wednesday math" -> "wednesday math tutoring" [label="c1 == true"];
+
+        "wednesday math end" [label="end of math class"];
+        "wednesday math nothing" -> "wednesday math end";
+        "wednesday math pleasure" -> "wednesday math end";
+        "wednesday math tutoring" -> "wednesday math end";
+
+        "wednesday physics smita" [label="run into Smita on your way to physics\n(if you told Amanda you'd look for a tutor, you ask Smita here;\nshe agrees and also suggests a date)\n\namanda_smita_tutor = true\nsmita_slevel = 3"];
+        "wednesday math end" -> "wednesday physics smita" [label="amanda_looking_for_tutor == true"]
+
+
+        "wednesday physics" [label="arrive at your physics class"];
+        "wednesday math end" -> "wednesday physics" [label="amanda_looking_for_tutor == false"];
+        "wednesday physics smita" -> "wednesday physics";
+
+        // Physics: Sarah's in it
+        // If NOT introduced:
+        //    Introduce yourself, but she's not particularly interested in talking to you
+        "wednesday physics sarah intro" [label="you introduce yourself to that Asian girl\n\nfirst_met_sarah = true"];
+        "wednesday physics" -> "wednesday physics sarah intro" [label="first_met_sarah = false"];
+
+        // If introduced:
+        //    If you gave bad advice:
+        //       She's not particularly interested in talking to you (or, maybe let you repair relationship?)
+        "wednesday physics sarah bad advice" [label="you notice Sarah and go talk to her"];
+        "wednesday physics" -> "wednesday physics sarah bad advice" [label="sarah_bad_advice == true"];
+
+        //    If you said you'd lend an ear:
+        //       She's friendly and wants to chat
+        "wednesday physics sarah lent ear" [label="Sarah greets you and sits next to you\n\nsarah_slevel = 2", fillcolor="palegreen1"];
+        "wednesday physics" -> "wednesday physics sarah lent ear" [label="sarah_lent_ear == true"];
+
+        //    If helped:
+        //       She's quite friendly, and may want to date
+        "wednesday physics sarah helped" [label="Sarah greets you warmly and sits next to you\n\nsarah_slevel = 2", fillcolor="palegreen1"];
+        "wednesday physics" -> "wednesday physics sarah helped" [label="sarah_helped == true"];
+
+        //    If she went batshit:
+        //       She's not there, having been sent to a hospital for psychiatric observation
+        "wednesday physics sarah absent" [label="Mr. Smith addresses the class"];
+        "wednesday physics" -> "wednesday physics sarah absent" [label="sarah_egomaniac == true"];
+
+        // Not interested in talking? You can manipulate her if you want...
+        "wednesday physics sarah sexy" [label="you tell Sarah she can use sex to get what she wants\n\nsarah_mlevel = 1\nsarah_nymphomaniac == true\nc1 = true", fillcolor="yellow1"];
+        "wednesday physics sarah intro" -> "wednesday physics sarah sexy";
+        "wednesday physics sarah bad advice" -> "wednesday physics sarah sexy";
+
+        // Date: you can accept or decline
+        "wednesday physics sarah date" [label="agree to a date with Sarah\n\nsarah_slevel = 3", fillcolor="palegreen1"];
+        "wednesday physics sarah helped" -> "wednesday physics sarah date";
+
+        // For declining, may want conditional text if smita thinks you're dating
+        "wednesday physics sarah decline" [label="politely decline the date"];
+        "wednesday physics sarah helped" -> "wednesday physics sarah decline";
+
+        // End of class...
+        "wednesday physics end" [label="class ends"];
+        "wednesday physics sarah intro" -> "wednesday physics end";
+        "wednesday physics sarah bad advice" -> "wednesday physics end";
+        "wednesday physics sarah lent ear" -> "wednesday physics end";
+        "wednesday physics sarah absent" -> "wednesday physics end";
+        "wednesday physics sarah date" -> "wednesday physics end";
+        "wednesday physics sarah decline" -> "wednesday physics end";
+
+        "wednesday physics happy ending" [label="class ends and you are waylaid by Sarah\n(sexual encounter, figure out specifics later)"];
+        "wednesday physics sarah sexy" -> "wednesday physics happy ending";
+      }
+
+      subgraph "cluster_weds_lunch" {
+        label = "Lunch";
+        fillcolor = gray85;
+
+        "wednesday lunch amanda" [label="head to lunch, and find Amanda waiting for you in the cafeteria\n('news' again based on conditional vars)"];
+        "wednesday physics end" -> "wednesday lunch amanda";
+        "wednesday physics happy ending" -> "wednesday lunch amanda";
+
+        "wednesday lunch amanda date" [label="you ask Amanda if she'd like to go out\n\namanda_slevel = 3", fillcolor="palegreen1"];
+        "wednesday lunch amanda" -> "wednesday lunch amanda date" [label="amanda_slevel == 2\nc2 == false"];
+
+        "wednesday lunch smita jealous" [label="Smita sees the two of you and sits down with you\n\namanda_smita_met = true"];
+        "wednesday lunch amanda date" -> "wednesday lunch smita jealous" [label="smita_mlevel > 0"];
+
+        // Oops, Smita's jealous of the competition! She overheard the ending
+        // of your date plan, and is NOT happy. What do you do?
+        // - Try to convince her that she misheard. This isn't gonna work,
+        //   because Amanda's gonna get angry too that you lied to her.
+        "wednesday lunch smita play dumb" [label="try to convince Smita that she misheard"];
+        "wednesday lunch smita jealous" -> "wednesday lunch smita play dumb";
+        //
+        // - Explain to Smita that you aren't actually a couple. She and Amanda
+        //   misinterpret this to mean you're breaking up with her. Amanda is
+        //   upset that you didn't do it *before* deciding to date her, and
+        //   Smita is basically beside herself.
+        "wednesday lunch explain to smita" [label="explain to Smita that you aren't actually a couple"];
+        "wednesday lunch smita jealous" -> "wednesday lunch explain to smita";
+        //
+        // - Manipulate both of them into being okay with the whole deal, which
+        //   convinces Smita that you're in an open relationship, and Amanda to
+        //   be fine with that. At this point, Smita is already at M2 so you
+        //   weren't gonna be romancing her anyway; this puts Amanda at M2 as
+        //   well.
+        "wednesday lunch smita harem" [label="convince Smita and Amanda that you're in an open relationship\n\namanda_mlevel = 2\nsmita_mlevel = 2\nsmita_open_relationship = true\nc2 = true", fillcolor="yellow1"];
+        "wednesday lunch smita jealous" -> "wednesday lunch smita harem";
+
+        // - If the two are mad, your options are:
+        //     -  You attempt to manipulate both to forget it all, which
+        //        resets both their social and manip stats to 0, literally
+        //        making them forget it ALL -- as in, you, completely.
+        "wednesday lunch smita forget" [label="try to get the two of them to forget the whole thing\n\namanda_slevel = 0\nsmita_slevel = 0\namanda_mlevel = 0\nsmita_mlevel = 0\namanda_smita_tutor = false"];
+        "wednesday lunch smita play dumb" -> "wednesday lunch smita forget";
+        "wednesday lunch explain to smita"-> "wednesday lunch smita forget";
+
+        //     -  Clarify to Smita that what you mean is you've *never* been in
+        //        a relationship, asking her to search her memory for any time
+        //        you've ever been on a date together. This gets her to stop and
+        //        think, and eventually leave... but this is a bad idea, and the
+        //        result is she basically has a psychotic break. Amanda feels
+        //        sorry for her, but doesn't suspect you of anything.
+        "wednesday lunch smita challenge" [label="clarify to Smita that you've never been in a relationship\n\nsmita_psychotic_break = true"];
+        "wednesday lunch smita play dumb" -> "wednesday lunch smita challenge";
+        "wednesday lunch explain to smita"-> "wednesday lunch smita challenge";
+
+        //    - Or, hey, you could manipulate her into forgetting the
+        //      relationship thing AND the flashing thing, which basically makes
+        //      her into a pliable blank slate. This is also a bad idea. Oh, and
+        //      Amanda is really freaked out at what the fuck just happened.
+        "wednesday lunch smita erase" [label="make Smita forget about the flashing, the dating, all of it\n\namanda_fears_you = true\namanda_slevel = 1\nsmita_fugue_state = true"];
+        "wednesday lunch smita play dumb" -> "wednesday lunch smita erase";
+        "wednesday lunch explain to smita"-> "wednesday lunch smita erase";
+
+        "wednesday afternoon" [label="leave the cafeteria"];
+        "wednesday lunch amanda" -> "wednesday afternoon";
+        "wednesday lunch amanda date" -> "wednesday afternoon" [label="smita_mlevel == 0"];
+        "wednesday lunch smita harem" -> "wednesday afternoon";
+        "wednesday lunch smita forget" -> "wednesday afternoon";
+        "wednesday lunch smita challenge"-> "wednesday afternoon";
+        "wednesday lunch smita erase" -> "wednesday afternoon";
+      }
+
+      subgraph "cluster_weds_afternoon" {
+        label = "Afternoon";
+        fillcolor = gray85;
+
+        // Should have something for the afternoon, because you want Kara, your
+        // mom, and your sister to all be there when you get home. What to do?
+        // Thinking options are either some sort of locker room hijinks, or
+        // some wholesome good alternate thing.
+
+        "wednesday locker room fun" [label="decide to do some sightseeing\n\ntrio_mlevel = 2\nc2 = true", fillcolor="yellow1"];
+        "wednesday afternoon" -> "wednesday locker room fun" [label="c1 == true"];
+
+        "wednesday some other thing" [label="(something else I haven't decided on)"];
+        "wednesday afternoon" -> "wednesday some other thing";
+
+        // TODO: If your friend meets you at home, and either mother_mlevel or
+        // sister_mlevel is 1, it's gonna be... awkward. (But she's really open
+        // minded; maybe if both == 1, they actually get *her* to go nude too?)
+        //
+        // Thoughts:
+        // Mother and sister both at 0: no problems
+        // Either mother or sister at 1: Kara is understandably shocked but
+        //                               handles it with grace and aplomb
+        // Mother and sister both at 1: "When in Rome..."
+        "wednesday afternoon head home" [label="head home to meet your best friend, who is already at your house"];
+
+        "wednesday afternoon meet friend" [label="are thrilled to see her\n\nfirst_met_friend = true\nfriend_slevel = 2\nfriend_approval = 10"];
+        "wednesday afternoon meet puzzled friend" [label="have a bit of explaining to do\n\nfirst_met_friend = true\nfriend_slevel = 2\nfriend_approval = 9"];
+        "wednesday afternoon meet nude friend" [label="are shocked to see that she is nude\n\nfirst_met_friend = true\nfriend_when_in_rome = true\nfriend_slevel = 2\nfriend_approval = 10"];
+
+        "wednesday locker room fun" -> "wednesday afternoon head home" [label="kincaid_mlevel < 2"];
+        "wednesday some other thing" -> "wednesday afternoon head home" [label="kincaid_mlevel < 2"];
+
+        "wednesday afternoon head home" -> "wednesday afternoon meet friend" [label="family_nlevel = 0"];
+        "wednesday afternoon head home" -> "wednesday afternoon meet puzzled friend" [label="family_nlevel = 1"];
+        "wednesday afternoon head home" -> "wednesday afternoon meet nude friend" [label="family_nlevel = 2"];
+
+        "wednesday afternoon kincaid tutoring" [label="Miss K demonstrates her novel tutoring technique\n\n(flesh out exact details later)"];
+        "wednesday locker room fun" -> "wednesday afternoon kincaid tutoring" [label="kincaid_mlevel > 1"];
+        "wednesday some other thing" -> "wednesday afternoon kincaid tutoring" [label="kincaid_mlevel > 1"];
+
+        "wednesday afternoon friend interrupts you" [label="hear the sound of a throat clearing behind you\n\nfirst_met_friend = true\nfriend_slevel = 2\nfriend_approval = 10"];
+        "wednesday afternoon kincaid tutoring" -> "wednesday afternoon friend interrupts you";
+
+        // Kara caught you with Kincaid. You can:
+        // -- Explain things to her. This is honestly not a bad option, as Kara
+        //    is really open-minded about sex in general. She's really more
+        //    annoyed about you manipulating a woman for sex than the fact that
+        //    you used the thing in general.
+        "wednesday afternoon friend explain" [label="explain the situation to her\n\nfriend_saw_you_with_kincaid = true\nfriend_saw_you_with_anyone = true\nfriend_approval - 1 (9)"]
+        "wednesday afternoon friend interrupts you" -> "wednesday afternoon friend explain";
+
+        // -- Manipulate her into forgetting what she saw. This seems perfect,
+        //    but will backfire later when you and she are able to see the
+        //    "usage log" of the device, and she finds out she was a target.
+        "wednesday afternoon friend forget" [label="cause her to forget what she's seen\n\nfriend_mlevel = 1\nc1 = true\nfriend_manip_to_forget = true", fillcolor="yellow1"];
+        "wednesday afternoon friend interrupts you" -> "wednesday afternoon friend forget";
+
+        // -- Manipulate her into thinking that this sort of thing is totally
+        //    normal. This will make her think teachers having sex with students
+        //    is a perfectly normal occurrence.
+        "wednesday afternoon friend convince" [label="convince her that this is normal\n\nfriend_mlevel = 1\nc1 = true\nfriend_manip_teacher_sex = true", fillcolor="yellow1"];
+        "wednesday afternoon friend interrupts you" -> "wednesday afternoon friend convince";
+
+        // Similar to the other path, possibilities here will depend on mom and
+        // sister manipulation levels. If neither or one of them is nude, it is
+        // handled by conditional vars. If both are nude, it triggers Kara's
+        // "When in Rome" behavior.
+        "wednesday both head home" [label="the two of you head to your house (9..10)"];
+
+        "wednesday afternoon friend explain" -> "wednesday both head home";
+        "wednesday afternoon friend forget" -> "wednesday both head home";
+        "wednesday afternoon friend convince" -> "wednesday both head home";
+
+        "wednesday both head home normal" [label="walk through the front door (9..10)"];
+        "wednesday both head home" -> "wednesday both head home normal" [label="family_nlevel == 0"];
+
+        "wednesday both head home mother nude" [label="walk through the front door\n\nfriend_approval - 1 (8..9)"];
+        "wednesday both head home" -> "wednesday both head home mother nude" [label="family_nlevel == 1\nmother_mlevel == 1"];
+
+        "wednesday both head home sister nude" [label="walk through the front door\n\nfriend_approval - 1 (8..9)"];
+        "wednesday both head home" -> "wednesday both head home sister nude" [label="family_nlevel == 1\nsister_mlevel == 1"];
+
+        "wednesday both head home both nude" [label="the two of you head to your house\n\nfriend_when_in_rome = true (9..10)"];
+        "wednesday both head home" -> "wednesday both head home both nude" [label="family_nlevel == 2"];
+
+        "wednesday afternoon room talk" [label="the two of you go up to your room to talk (8..10)"];
+        "wednesday afternoon meet friend" -> "wednesday afternoon room talk";
+        "wednesday afternoon meet puzzled friend" -> "wednesday afternoon room talk";
+        "wednesday afternoon meet nude friend" -> "wednesday afternoon room talk";
+        "wednesday both head home normal" -> "wednesday afternoon room talk";
+        "wednesday both head home mother nude" -> "wednesday afternoon room talk";
+        "wednesday both head home sister nude" -> "wednesday afternoon room talk";
+        "wednesday both head home both nude" -> "wednesday afternoon room talk";
+      }
+
+      subgraph "cluster_weds_evening" {
+        label = "Evening";
+        fillcolor = gray85;
+        // Some thoughts about the evening... you can run into various folks as
+        // you're out, and what they say can have positive or negative impacts
+        // on how Kara feels about you.
+        "wednesday walk to cafe" [label="you head to the local cafe for a bit to eat"];
+        "wednesday afternoon room talk" -> "wednesday walk to cafe";
+
+        //  - At the cafe:
+        "wednesday cafe" [label="look around the cafe"];
+        "wednesday walk to cafe" -> "wednesday cafe";
+
+        "wednesday cafe tutoring metanode" [label="", shape=circle];
+        "wednesday cafe" -> "wednesday cafe tutoring metanode" [label="amanda_smita_tutor == true"];
+
+        //      - Amanda/Smita: If Smita/Raz accepted tutoring her, the two of
+        //        them will be working together at the cafe. (++)
+        "wednesday cafe amanda smita" [label="Amanda and Smita see you and wave the two of you over\n\nfriend_approval + 2 (10..12)"];
+        "wednesday cafe tutoring metanode" -> "wednesday cafe amanda smita" [label="smita_mlevel == 1\nsmita_open_relationship == false"];
+        "wednesday cafe tutoring metanode" -> "wednesday cafe amanda smita" [label="smita_mlevel == 0\nsmita_slevel < 3\namanda_slevel < 3"];
+
+        //      - If you have a date with one or the other, and Smita does *not*
+        //        think she's your girlfriend, your friend will be impressed.
+        "wednesday cafe amanda smita dating one" [label="Amanda and Smita see you and wave the two of you over\n\nfriend_approval + 3 (11..13)"];
+        "wednesday cafe tutoring metanode" -> "wednesday cafe amanda smita dating one" [label="smita_mlevel == 0\nsmita_slevel < 3\namanda_slevel > 2"];
+        "wednesday cafe tutoring metanode" -> "wednesday cafe amanda smita dating one" [label="smita_mlevel == 0\nsmita_slevel > 2\namanda_slevel < 3"];
+
+        //      - If you have a date with both, and Smita does *not* think she's
+        //        your girlfriend, your friend will be VERY impressed.
+        "wednesday cafe amanda smita dating both" [label="Amanda and Smita see you and wave the two of you over\n\nfriend_approval + 3 (12..14)"];
+        "wednesday cafe tutoring metanode" -> "wednesday cafe amanda smita dating both" [label="smita_mlevel == 0\nsmita_slevel > 2\namanda_slevel > 2"];
+
+        //      - If she *is* being tutored, but believes you and Smita are in
+        //        an open relationship, she'll mention that, but then Smita
+        //        will chip in with how you two have been a couple for years,
+        //        which Kara obviously knows isn't true. (--)
+        "wednesday cafe amanda smita open" [label="you run into Amanda and Smita studying together\n\nfriend_approval - 2 (6..8)"];
+        "wednesday cafe tutoring metanode" -> "wednesday cafe amanda smita open" [label="smita_open_relationship == true"];
+
+        //      - Amanda: if they aren't tutoring each other, she's there
+        //        studying
+        "wednesday cafe amanda metanode" [label="", shape=circle];
+        "wednesday cafe" -> "wednesday cafe amanda metanode" [label="amanda_smita_tutor == false"];
+
+        //        - If she fears you: she gets up and runs like hell. Kara
+        //          wonders what the hell that was about; you do not enlighten
+        //          her.
+        "wednesday cafe amanda fear" [label="you see Amanda studying in the corner (8..10)"];
+        "wednesday cafe amanda metanode" -> "wednesday cafe amanda fear" [label="amanda_fears_you == true"];
+
+        "wednesday cafe amanda nofear metanode" [label="(8..10)", shape=circle, margin=0];
+        "wednesday cafe amanda metanode" -> "wednesday cafe amanda nofear metanode" [label="amanda_fears_you == false"];
+
+        //        - At S0: she doesn't remember you, and you realize you totally
+        //          wiped both of their memories. Kara is... not happy. (--)
+        "wednesday cafe amanda s0" [label="you see Amanda studying in the corner\n\nfriend_approval - 2 (6..8)"];
+        "wednesday cafe amanda nofear metanode" -> "wednesday cafe amanda s0"  [label="amanda_slevel == 0"];
+
+        //        - At S1/S2: you don't really see her.
+        //
+        //        - At S3: she talks about her excitement for your date. (+)
+        "wednesday cafe amanda s3" [label="Amanda sees you and waves you over\n\nfriend_approval + 1 (9..11)"];
+        "wednesday cafe amanda nofear metanode" -> "wednesday cafe amanda s3" [label="amanda_slevel == 3"];
+
+        //    - Smita/Raz
+        "wednesday cafe smita metanode" [label="(8..11)", shape=circle, margin=0];
+        "wednesday cafe amanda nofear metanode" -> "wednesday cafe smita metanode" [label="amanda_slevel > 0\namanda_slevel < 3"];
+        "wednesday cafe amanda fear" -> "wednesday cafe smita metanode";
+        "wednesday cafe amanda s3" -> "wednesday cafe smita metanode";
+
+        //      - As above, will be with Amanda if tutoring her. (see Amanda)
+        //      - Otherwise:
+        //        - If not at M1:
+        "wednesday cafe smita nonmanip metanode" [label="", shape=circle];
+        "wednesday cafe smita metanode" -> "wednesday cafe smita nonmanip metanode" [label="smita_mlevel == 0"];
+
+        //          - S0 (you erased her memory) (already got a -- from earlier)
+        //          - S1/S2 (you're decent friends)
+
+        //          - S3 (you have a date scheduled) (+)
+        "wednesday smita date" [label="spot Smita eating with some friends\n\nfriend_approval + 1 (9..12)"];
+        "wednesday cafe smita nonmanip metanode" -> "wednesday smita date" [label="smita_slevel > 2"];
+
+        //        - If at M1:
+        "wednesday cafe smita manip metanode" [label="", shape=circle];
+        "wednesday cafe smita metanode" -> "wednesday cafe smita manip metanode" [label="smita_mlevel > 0"];
+
+        //          - Psychotic break
+        "wednesday smita psychotic" [label="you see Smita sitting at the cafe's bar", fillcolor=red4, fontcolor=white];
+        "wednesday cafe smita manip metanode" -> "wednesday smita psychotic" [label="smita_psychotic_break == true"];
+
+        //          - Fugue state
+        "wednesday smita fugue" [label="(some way for Kara to learn you\nbasically made Smita a vegetable)", fillcolor=red4, fontcolor=white];
+        "wednesday cafe smita manip metanode" -> "wednesday smita fugue" [label="smita_fugue_state == true"];
+
+        //          - Otherwise, will intercept you and your friend, and talk
+        //          about how you and them have been a couple for years. (--)
+        "wednesday smita couple" [label="you spot Smita eating with some friends\n\nfriend_approval - 2 (6..9)"];
+        "wednesday cafe smita manip metanode" -> "wednesday smita couple" [label="smita_psychotic_break == false\nsmita_fugue_state == false"];
+
+        //    - Amy/Daniel
+        "wednesday amy daniel metanode" [label="(6..14)", shape=circle, margin=0];
+        "wednesday cafe amanda smita" -> "wednesday amy daniel metanode";
+        "wednesday cafe amanda smita open" -> "wednesday amy daniel metanode";
+        "wednesday cafe amanda smita dating one" -> "wednesday amy daniel metanode";
+        "wednesday cafe amanda smita dating both" -> "wednesday amy daniel metanode";
+        "wednesday cafe smita nonmanip metanode" -> "wednesday amy daniel metanode" [label="smita_slevel < 3"];
+        "wednesday cafe amanda s0" -> "wednesday amy daniel metanode";
+        "wednesday smita couple" -> "wednesday amy daniel metanode";
+        "wednesday smita date" -> "wednesday amy daniel metanode";
+
+        //      - If you got them together, they'll be on a date at the cafe.
+        //        (++)
+        "wednesday amy daniel date" [label="you see Amy and Daniel at a corner table\n\nfriend_approval + 2 (8..16)"];
+        "wednesday amy daniel metanode" -> "wednesday amy daniel date" [label="amy_daniel_dating == true"];
+
+        //      - If you manipulated/flirted with either, the other will
+        //        confront you. (-)
+        //      - Otherwise, you talk with Kara about the two of them.
+
+        "wednesday amy" [label="you see Amy alone at a corner table\n\nfriend_approval - 1 (5..13)"];
+        "wednesday amy daniel metanode" -> "wednesday amy" [label="amy_daniel_dating == false\ndaniel_flirted == true"];
+
+        "wednesday daniel" [label="you see Daniel alone at a corner table\n\nfriend_approval - 1 (5..13)"];
+        "wednesday amy daniel metanode" -> "wednesday daniel" [label="amy_daniel_dating == false\namy_flirted == true"];
+
+        //    - On the street
+        "wednesday walk to arcade" [label="head out to the arcade (5..16)"];
+        "wednesday amy daniel date" -> "wednesday walk to arcade";
+        "wednesday amy" -> "wednesday walk to arcade";
+        "wednesday daniel" -> "wednesday walk to arcade";
+
+        //    - Trio
+        //      - You might run into them when out. If they aren't wearing any
+        //        underwear, Kara will definitely notice...
+        //          - But won't chalk it up to you...
+        "wednesday trio pantyless" [label="you pass by Kathy, Melissa, and Tiana hanging out in more ways than one (5..16)"];
+        "wednesday walk to arcade" -> "wednesday trio pantyless" [label="trio_mlevel > 0"];
+
+        //          - ...Unless you admit to it, in which case she'll actually
+        //            find it hilarious, since she always thought they were
+        //            stuck-up bitches. (+)
+        "wednesday trio admit" [label="admit you *may* have had something to do with it\n\nfriend_approval + 1 (6..17)"];
+        "wednesday trio pantyless" -> "wednesday trio admit";
+
+        //  - At the arcade
+        "wednesday arcade" [label="look around the arcade (5..17)"];
+        "wednesday walk to arcade" -> "wednesday arcade" [label="trio_mlevel == 0"];
+        "wednesday trio pantyless" -> "wednesday arcade";
+        "wednesday trio admit" -> "wednesday arcade";
+
+        //    - Emily
+        //      - If she's wary of the device, she'll make small talk, but won't
+        //        really do anything else.
+        "wednesday emily wary" [label="see Emily playing DDR"];
+        "wednesday arcade" -> "wednesday emily wary" [label="emily_wary == true"];
+
+        //      - If she's fascinated by it, she'll talk about how interesting
+        //        you are, which impresses Kara. (+)
+        "wednesday emily fascinated" [label="see Emily staring at you from across the room\nfriend_approval + 1 (6..18)"];
+        "wednesday arcade" -> "wednesday emily fascinated" [label="emily_curious == true"];
+
+        //      - If she's fascinated by it *and* you have a date planned,
+        //        she won't be able to shut up about you, which impresses Kara
+        //        even more. (++)
+        "wednesday emily dating" [label="see Emily walk up to the two of you, smiling\nfriend_approval + 2 (7..19)"];
+        "wednesday arcade" -> "wednesday emily dating" [label="emily_curious == true\nemily_slevel > 2"];
+
+        "wednesday emily chat" [label="the three of you sit down to chat (5..19)"];
+        "wednesday emily wary" -> "wednesday emily chat";
+        "wednesday emily fascinated" -> "wednesday emily chat";
+        "wednesday emily dating" -> "wednesday emily chat";
+
+        //    - Sarah
+        //      - If you didn't help her, she won't be out, she'll be inside
+        //        studying.
+        "wednesday sarah study" [label="listen to Emily talk about Sarah"];
+        "wednesday emily chat" -> "wednesday sarah study" [label="sarah_helped == false\nsarah_egomaniac == false\nsarah_nymphomaniac == false"];
+
+        //      - If you DID help her, she'll be in the arcade having fun. (+)
+        "wednesday sarah playing" [label="notice Sarah playing a game nearby\nfriend_approval + 1 (6..20)"];
+        "wednesday emily chat" -> "wednesday sarah playing" [label="sarah_helped == true\nsarah_slevel < 3"];
+
+        //      - If the two of you have a date planned, she'll be excited about
+        //        it. (++) (Note that Emily will have to leave beforehand, as I
+        //        really don't want to have to deal with writing the possible
+        //        fallout here.)
+        "wednesday sarah date" [label="notice Sarah playing a game in the corner\nfriend_approval + 2 (7..21)"];
+        "wednesday emily chat" -> "wednesday sarah date" [label="sarah_helped == true\nsarah_slevel > 2"];
+
+        //      - If you turned her into a nymphomaniac, you and Kara will run
+        //        into her. Kara is pleased that you tried to help her gain
+        //        confidence, albeit in a particularly stupid and manipulative
+        //        way, which basically cancels it out.
+        "wednesday sarah nymphomaniac" [label="encounter a familiar face in some very UNfamiliar clothing\n\nfriend_approval - 1 (4..18)"];
+        "wednesday emily chat" -> "wednesday sarah nymphomaniac" [label="sarah_nymphomaniac == true"];
+
+        //      - If you turned her into an egomaniac, Emily will gossip about
+        //        her recent... behavior. (-)
+        "wednesday sarah egomaniac" [label="listen to Emily talk about Sarah's recent... change\n\nfriend_approval - 2 (3..17)"];
+        "wednesday emily chat" -> "wednesday sarah egomaniac" [label="sarah_egomaniac == true"];
+
+        //  - Will you meet any adults? Perhaps Ms. Lewis, but I'm not sure how.
+
+        "wednesday evening walk home" [label="head home with your friend (3..21)"];
+        "wednesday sarah study" -> "wednesday evening walk home";
+        "wednesday sarah playing" -> "wednesday evening walk home";
+        "wednesday sarah date" -> "wednesday evening walk home";
+        "wednesday sarah nymphomaniac" -> "wednesday evening walk home";
+        "wednesday sarah egomaniac" -> "wednesday evening walk home";
+
+        "wednesday evening home with friend" [label="the two of you head up to your room"];
+        "wednesday evening walk home" -> "wednesday evening home with friend" [label="friend_room == true\narcade_emily == true\narcade_sarah == true"];
+
+        // If your friend is staying in your room, a few options are open:
+        //  - You can just go to bed.
+        //  - Your "score" from the night out will affect how she feels about
+        //    you. By my calculations, it can range from 3 to 21.
+        //      - At 3:
+        //        - This can only happen if:
+        //          - She saw you with Miss Kincaid, and you didn't manipulate
+        //            her to forget or ignore it
+        //          - Your mom or sister is a nudist, but not both
+        //          - You:
+        //            - Got Smita to flash you, set up a date with Amanda, got
+        //              Smita to tutor Amanda, and "convinced" the two of them
+        //              you're in an open relationship, *or*
+        //            - Got Smita to flash you, did *not* set up a date with
+        //              Amanda, and did *not* have Smita her tutor Amanda,
+        //              *or*
+        //            - Accidentally wiped both Smita and Amanda's memories
+        //          - Flirted with Amy or Daniel
+        //          - Didn't manipulate the Trio into going pantyless, or did
+        //            but didn't tell Kara that you did
+        //          - Made Emily wary of your use of the Manipulator
+        //          - Turned Sarah into an egomaniac
+        //        - At this level, she's actually thoroughly angry with you and
+        //          your reckless behavior. Bad shit'll go down. Not sure what
+        //          yet.
+        //      - At 4 to 9:
+        //        - She's dismayed, TODO: flesh this out later
+        //      - At 10 to 14:
+        //        - She's not upset, but not really impressed either, TODO:
+        //          flesh this out later.
+        //      - At 15 to 20:
+        //        - She's impressed that you've been so social and benevolent.
+        //          TODO: flesh this out later.
+        //      - At 21:
+        //        - This can only happen if:
+        //          - One of:
+        //            - She saw you with Miss K, but you manipulated her to forget
+        //              or ignore it (but it'll set M1), *or*
+        //            - Neither your sister nor your mother are nudists, *or*
+        //            - *Both* your sister and mother are nudists
+        //          - You convinced Smita to tutor Amanda, she does *not* think
+        //            she's your girlfriend due to manipulation, and you managed
+        //            to set up dates with both of them
+        //          - You got Amy and Daniel to go out on a date together
+        //          - You manipulated the Trio to go pantyless, and you let
+        //            Kara know you did it
+        //          - You set yourself up on a date with Emily
+        //          - You set yourself up on a date with Sarah
+        //        - She basically has stars in her eyes for you, astonished that
+        //          you could be so debonaire and attractive to so many people.
+        //          She more or less throws herself at you, and begins to hatch
+        //          a plan for you and her to essentially recruit everybody into
+        //          a big polycule.
+        //
+        //  - Giving in to romance can happen even if she's at M1 --
+        //    consequences for that happen later...
+        "wednesday evening give in to romance" [label="look deeply into her eyes\n\nfriend_slevel = 4"];
+        "wednesday evening home with friend" -> "wednesday evening give in to romance" [label="friend_saw_you_with_anyone == false"];
+        //    - You can still manipulate her into it, but it'll set M1.
+        "wednesday evening manip into romance" [label="look deeply into her eyes (manipulate)\n\nfriend_slevel = 4\nfriend_mlevel = 2\nc2 = true"];
+        "wednesday evening home with friend" -> "wednesday evening manip into romance" [label="friend_saw_you_with_anyone == true"];
+
+        "wednesday evening home alone" [label="say goodnight and head to your room"];
+        "wednesday evening walk home" -> "wednesday evening home alone" [label="friend_room == false\narcade_emily == true\narcade_sarah == true"];
+      }
+    }
+  }
+
+  subgraph "cluster_thursday" {
+    label = "Thursday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Rough Plans" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=1.0;
+      ]
+
+      edge [
+        style="dashed";
+      ]
+
+      // TODO: Wake with friend can lead to morning sex, triggering the "dawdle"
+      // bathroom path below.
+      "thursday morning wake with friend";
+      "wednesday evening home with friend" -> "thursday morning wake with friend";
+      "wednesday evening give in to romance" -> "thursday morning wake with friend";
+      "wednesday evening manip into romance" -> "thursday morning wake with friend";
+
+      "thursday morning wake alone";
+      "wednesday evening home alone" -> "thursday morning wake alone";
+
+      // Bathroom:
+      //    - If you didn't dawdle with friend:
+      //      - Sister at M0:
+      //        - do nothing special (she stays at M0)
+      //        - just make her a nudist (she goes to M1)
+      //      - Sister at M1:
+      //        - do nothing special (she stays at M1)
+      //        - decide to go further (she goes to M2)
+      //    - If you dawdled with friend: Sister's already in the shower
+      //      - Sister at M0:
+      //        - Wait for her to finish
+      //      - Sister at M1:
+      //        - Ask her if you can join her
+      //          - Just shower (she stays at M1)
+      //          - Manip her to go further (she goes to M2)
+      //    - If you dawdled with friend, sister is at M1, and "when in Rome" is
+      //      set:
+      //      - Ask her if you both can join her
+      //        - Just shower (she stays at M1)
+      //          - Manip them both to go further (she and friend go to M3)
+      //
+      // NOTE: everything below is very rough, trying to brainstorm possible
+      //       branches
+
+      // TODO: Kitchen
+      //  So many variables to track here:
+      //  Friend can be absent, normal (NML), When-in-Rome (WIR), or M3
+      //  Sister can be M0, M1, M2, or M3 (but only if friend is)
+      //  Mother can be M0 or M1
+      //
+      //  FRN SIS MOM Result
+      //   -   0   0  Normal breakfast.
+      //   -   0   1  Just make sister a nudist (goes to M1).
+      //   -  1/2  0  Just make mother a nudist (goes to M1).
+      //   -  1/2  1  Nude breakfast.
+      //  NML  0   0  Normal breakfast.
+      //  NML  0   1  Just make sister a nudist (M1); friend joins in (WIR).
+      //  NML 1/2  0  Just make mother a nudist (M1); friend joins in (WIR).
+      //  WIR 1/2  1  Nude breakfast. Friend insists you are nude as well.
+      //   3   3  0/1 Drag mom into full orgy (M3).
+
+      // Library w/Amanda
+      //  - At M0:
+      //    - Chat with her a bit (stays at M0), or
+      //    - Go have oral sex in the stacks (goes to M1).
+      //  - At M1:
+      //    - Go have oral sex in the stacks (stays at M1), or
+      //    - Go have sex in the stacks (goes to M2).
+
+      // Health class
+      //  - If Ms. R is at M0:
+      //    - You don't affect the class
+      //      - But if Amanda is at M1, she will tease you throughout the
+      //        class
+      //      - And if the Trio is at M2, they will do likewise
+      //  - If Ms. R is at M1:
+      //    - You can choose not to affect the class, or
+      //    - You can make her incorporate "live demos" of the topic at hand
+      //      (she goes to M2)
+      //      - Female anatomy
+      //        - If Trio is at M1, they'll volunteer
+      //        - Otherwise Ms. R will volunteer
+      //      - Cunnilingus
+      //        - If Trio is at M2, they'll volunteer
+      //        - If Amanda is at M2: you can make her volunteer along with you
+      //          (goes to M3)
+      //        - Otherwise Ms. R will ask you to volunteer
+      //      - Fellatio
+      //        - If Amanda is at M3: she'll volunteer herself and you
+      //        - If Amanda is at M2: you can make her volunteer along with you
+      //          (goes to M3)
+      //        - Otherwise Ms. R will ask you to volunteer
+
+      // TODO: Physics class
+      //  - The arrival of Dr. Kessel, and his explanation
+
+      // TODO: Lunch off-campus with friend
+      //  - Tell her about Kessel... or maybe don't?
+
+      // TODO: Confrontation(s) with whoever you are dating (if any?)
+      //  - Maybe this belongs after all the dates?
+      //  - Possibility of suggesting polycule for various people
+
+      // Art w/Amy, Daniel, Ms. Lewis
+      //  - If Amy/Daniel are at M1:
+      //    - You can "suggest" they be "live models" for the class (go to M2).
+      //    - This also puts Ms. Lewis at M1.
+      // - You can speak with Ms. Lewis and propose a (discrete) date (goes to
+      //   S2).
+
+      // Thursday evening
+      // Sister has Jennifer over to watch "Must See TV"
+      //  Another mind-boggling mix of possibilities:
+      //  - Friend absent, Mother/Sister M0
+      //  - Friend present, Mother/Sister M0
+      //    - In both of these, Jenn will catch you when your sister is away,
+      //      and ask you if she has ever... *said* anything about her. You tell
+      //      her that it's easy to see that she loves your sister.
+      //        - Choose to do nothing, saying your sister needs to find her own
+      //          path. Jenn understands, and that's the end of it.
+      //          (sister_jenn_couple = false)
+      //        - Urge her to tell your sister her real feelings. She does so.
+      //            - If you're alone, it freaks your sister out, and puts an
+      //              end to the night. Jenn isn't angry with you, but neither
+      //              does it increase her SLevel.
+      //            - If your friend is there, she's able to help your sister
+      //              come to terms with her feelings, and it increases both
+      //              your sister and Jenn's SLevel.
+      //        - Tell her that you'll speak to your sister. She is extremely
+      //          grateful, and it increases her SLevel.
+      //          - When you speak to your sister:
+      //            - If you're alone, you don't succeed, but Jenn is grateful
+      //              that you tried anyway.
+      //            - If your friend is there, the two of you can convince your
+      //              sister to accept her true feelings, and it increases her
+      //              SLevel.
+      //  - Friend absent, Mother M1, Sister M1/M2
+      //    - Obviously the first thing that, uh, *strikes* Jenn is the
+      //      overwhelming amount of nudity everywhere. She accepts it, but is
+      //      reluctant to do so herself.
+      //      - Like above, Jenn intercepts you and talks about her feelings for
+      //        your sister.
+      //        - You can urge her to confess her feelings, and suggest that
+      //          disrobing may be the final key to getting her to crack. She
+      //          does, and the added impetus of all the nudity causes your
+      //          sister to give in and reciprocate. SLevel increases for both.
+      //        - You can say you'll speak to your sister. She is extremely
+      //          grateful. When you talk with your sister, she is still
+      //          reluctant, but you tell her to give it a shot, over the course
+      //          of the night she comes around to accepting her own feelings
+      //          for Jenn. SLevel increases for both.
+      //      - TODO: now you have further options...
+      //  - Friend present (and nude), Mother M1, Sister M1/M2
+      //    - Your friend answers the door and intercepts Jenn, describing the
+      //      situation, and she's able to get Jenn to go along with it.
+      //    - In this case, the ubiquitous nudity moves things along very fast.
+      //      It doesn't take long before they give in to each other. SLevel
+      //      increases for both.
+      //    - TODO: now you have further options...
+      //  - Friend, Mother, and Sister all at M3
+      //    - This one requires some forethought. If Jenn arrives to a house
+      //      teeming with incest, she's going to go ballistic. So you watch
+      //      from the attic window, and when you see her in the driveway, you
+      //      manipulate her to be just like the rest of the household (goes to
+      //      M3).
+      //    - Obviously, this leads to an extremely eventful night which I'll
+      //      have to go into more detail about later.
+    }
+  }
+
+  // TODO: Copied from previous notes:
+  //  - Friday morning, house
+  //  - Wake up
+  //  - Bathroom
+  //  - Kitchen
+  //  - Friday morning classes
+  //  - Morning with Amanda
+  //  - Math with Miss K
+  //  - Algorithms class
+  //  - free - Locker room fun
+  //  - Friday lunch
+  //  - Friday afternoon
+  //    - Date w/Amanda (if scheduled)
+  //    - If amanda_protag_tutor == true:
+  //      - L4/5 and friend_room=false: Amanda/sister/protag 3
+  //      - L4/5 and friend_room=true: Amanda/sister/friend/protag 4
+  //      - L5 and friend_room=false: Amanda/sister/mother/protag 4
+  //      - L5 and friend_room=true: Amanda/sister/mother/friend/protag 5
+  //    - If smita_protag_tutor == true:
+  //      - Same options as above but with Smita
+  //    - If amanda_protag_tutor == false and smita_protag_tutor == false:
+  //      - No classes, Hijinks Ensue
+  //  - Friday evening: Date w/Smita or Raz
+  //
+  // Beyond: Who knows?
+  subgraph "cluster_friday" {
+    label = "Friday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Rough Plans" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=1.0;
+      ]
+
+      edge [
+        style="dashed";
+      ]
+    }
+  }
+  subgraph "cluster_saturday" {
+    label = "Saturday";
+    style = "filled,rounded";
+    color = gray20;
+    fillcolor = gray90;
+
+    subgraph "Rough Plans" {
+      node [
+        style="dashed,filled,rounded";
+        fillcolor=white;
+        penwidth=1.0;
+      ]
+
+      edge [
+        style="dashed";
+      ]
+    }
+  }
+
+  subgraph "cluster_horny_path" {
+    label="The 'Sex Now, Please' Route"
+    style = "filled,rounded";
+    color = pink4;
+    fillcolor = pink3;
+
+    node [
+      style="filled,rounded";
+      fillcolor=pink1;
+    ]
+
+    subgraph "cluster_horny_sunday" {
+      label="Sunday, Horny Sunday"
+      fillcolor = pink2;
+
+      "horny boy" [label="a frustrated, desperate, extremely horny boy\n\nfemale = false", URL="https://chyoa.com/chapter/You%27re-a-frustrated%2C-manipulative-sociopath.683043"];
+      "intro" -> "horny boy";
+
+      "downstairs horny" [label="head downstairs", URL="https://chyoa.com/chapter/You-head-downstairs.683047"];
+      "horny boy" -> "downstairs horny";
+
+      "package horny" [label="check out the package", URL="https://chyoa.com/chapter/Screw-this%2C-you%27re-checking-out-that-package-first.683052"];
+      "downstairs horny" -> "package horny";
+
+      "curiosity horny" [label="put the device on your arm", URL="https://chyoa.com/chapter/You-put-the-device-on-your-arm.683055"];
+      "package horny" -> "curiosity horny";
+
+      "kitchen horny" [label="go to the kitchen to get your food\n\nfirst_met_mother = true", URL="https://chyoa.com/chapter/You-go-to-the-kitchen-to-get-your-food.683060"];
+      "curiosity horny" -> "kitchen horny";
+
+      "computer horny" [label="update your porn collection\n(mast)", URL="https://chyoa.com/chapter/Time-to-update-your-porn-collection.683081"];
+      "kitchen horny" -> "computer horny";
+
+      "ramen horny" [label="indulge in ramen, 7-Up, and porn", URL="https://chyoa.com/chapter/Ramen%2C-soda%2C-and-porn.683084"];
+      "computer horny" -> "ramen horny";
+
+      "sister horny" [label="awoken by a door slamming\n(nudity)\n\nfirst_met_sister = true", URL="https://chyoa.com/chapter/You%E2%80%99re-suddenly-awoken-by-a-door-slamming.683097"];
+      "ramen horny" -> "sister horny";
+
+      "sister apology horny" [label="make it up to your sister\n(BJ)", URL="https://chyoa.com/chapter/You-generously-make-it-up-to-your-sister.683694"];
+      "sister horny" -> "sister apology horny";
+
+      "interlude_kessel_1" [label="Kessel interlude 1", URL="", style="dashed,filled,rounded"];
+      "sister apology horny" -> "interlude_kessel_1";
+
+      "mother horny" [label="mom is mute with shock\n(nudity)", URL="https://chyoa.com/chapter/Your-mom-is-mute-with-shock.686773"];
+      "sister apology horny" -> "mother horny";
+      "interlude_kessel_1" ->  "mother horny";
+
+      "experiment horny" [label="experiment with the device", URL="https://chyoa.com/chapter/You-do-some-experiments-with-the-device.686790"];
+      "mother horny" -> "experiment horny";
+    }
+
+    subgraph "cluster_horny_monday" {
+      label="Just Another Horny Monday";
+      fillcolor = pink2;
+
+      "monday wake horny" [label="wake up to an unfamiliar sensation\n(HJ, voy mast)", URL="https://chyoa.com/chapter/You-awaken-to-an-unfamiliar-sensation.687801"]
+      "experiment horny" -> "monday wake horny";
+
+      "monday shower horny" [label="don't want to be late for school\n(vag)", URL="https://chyoa.com/chapter/You-don%27t-want-to-be-late-for-school.687903"]
+      "monday wake horny" -> "monday shower horny";
+
+      "monday tongue horny" [label="lend a helping tongue\n(oral/F)", URL="https://chyoa.com/chapter/You-lend-a-helping--tongue.687917"]
+      "monday shower horny" -> "monday tongue horny";
+
+      "monday brett horny" [label="run into an unwelcome individual", URL="https://chyoa.com/chapter/You-run-into-an-unwelcome-individual-along-the-way.688929"];
+      "monday tongue horny" -> "monday brett horny";
+
+      "monday calculus horny" [label="have an (un)forgettable calc class", URL="https://chyoa.com/chapter/It%27s-time-for-a-calculus-class-nobody-will-ever-forget--except%2C-of-course%2C-they-will.689023"];
+      "monday brett horny" -> "monday calculus horny";
+
+      "monday algorithms horny" [label="fuck around in Algorithms", URL="https://chyoa.com/chapter/It%27s-time-to-fuck-around-in-Algorithms.689032"];
+      "monday calculus horny" -> "monday algorithms horny";
+
+      "monday smita horny" [label="smita's turn to shine", URL="https://chyoa.com/chapter/It%27s-Smita%27s-turn-to-shine.689830"];
+      "monday algorithms horny" -> "monday smita horny";
+    }
+  }
+
+  subgraph "cluster_malfunction_route" {
+    label="The 'Oh Shit, It Dun Broke' Route";
+    style="filled,rounded";
+    fillcolor = palevioletred3;
+
+    node [
+      fillcolor = palevioletred1;
+    ]
+
+    subgraph "cluster_tuesday_broke" {
+      label="Tuesday";
+      fillcolor = palevioletred2;
+
+      subgraph "Unwritten Nodes" {
+        node [
+          style="filled,rounded,dashed";
+        ]
+
+        edge [
+          style="dashed";
+        ]
+
+        "tuesday mf library" [label="arrive at the library and sit with Amanda\n(BJ)\n\namanda_mlevel = 4\nc1 = true\nc2 = true\nc3 = true\nc4 = true"];
+        "shove brett into the wall" -> "tuesday mf library";
+
+        "tuesday mf health" [label="head to health class, despite being shocked and aroused\n(orgy)\n\nreynolds_mlevel = 4\namanda_mlevel = 4\ntrio_mlevel = 4"];
+        "tuesday mf library" -> "tuesday mf health";
+
+        "tuesday mf quad" [label="rush out onto the quad, alarmed\n(sex)\n\nsarah_mlevel = 4\nsarah_nymphomaniac = true"];
+        "tuesday mf health" -> "tuesday mf quad";
+
+        "tuesday mf run home" [label="decide you can't handle this and make a beeline for home\n(sex)\n\nmother_mlevel = 4"];
+        "tuesday mf quad" -> "tuesday mf run home";
+
+        "tuesday mf kessel car" [label="jump into the complete stranger's car"];
+        "tuesday mf run home" -> "tuesday mf kessel car";
+
+        "tuesday mf stay home" [label="take your chances at home\n(pass out from the device constantly broadcasting, wake up later)\n(threesome)\n\nsister_mlevel = 4"];
+        "tuesday mf run home" -> "tuesday mf stay home";
+      }
+    }
+  }
+}
+

@@ -1,0 +1,98 @@
+# Settings
+(Not to scale, obviously, just general layouts so I can recall where everything is in various scenes)
+
+## Upstairs
+                      +---OO---+
+                      |dd  n###|
+        +-----------+-+     ###+---+---------+    D - door
+        |           | x     ###|             |    O - window
+        +...........+ x     ###+---+         |    # - bed
+        |           | x            |         |    @ - desk
+        |           +-+        C   |         |    C - chair
+        O             |      @@@@@@|         O    n - nightstand
+        O             |      @@@@@@|         O    d - dresser
+        O             +---DD-------+         O
+        |                                    |    W - whirlpool (eventually)
+        |               :   +--+   :         |    T - toilet (eventually)
+        +.....  ........:   |vv|   :.........|    S - sink (eventually)
+        |WWWW               |vv|             |    > - stairs down  
+        |WWWW       :   :   |vv|   :         |    x - folding doors
+        |WWWW  SSSSS: T :          :         |  ./: - eventual walls
+        +---------+------+---------+---------+
+
+## Main Floor
+        +-----OOOOO-----+DDDD+-----OOOOO-----+
+        |     AAAt      .    |@@@%@@SSS@   c |
+        |EE         CC  .    |@@          ttt|    D - door      @ - kitchen ctr
+        OEE         CC  .    |@@         ctttO    O - window    % - stove
+        OEE         CC  .    +FF          tttO    C - couch     F - fridge
+        |EE         CC  .                  c |    A - armchair  # - bed
+        |EE         CC  .    +-xxxxxx-+      |    E - ent ctr   n - nightstand
+        +--+  AAAt      .    |        |      |    t - table
+        |ss+-----+--------  -+--------+---  -+    c - chair
+        |ss SST  D                           |    T - toilet
+        |ss      +---DD-+   +  +     c       |    S - sink
+        +--------+      |   |^^|    ttt      |    s - shower/tub
+        O              n|   |^^|   ctttc     O    x - folding doors
+        O         ######|   +--+    ttt      O    ^ - stairs up
+        +xxxx+    ######|   |vv|   ctttc     |    v - stairs down   
+        |    |ddd ######|      |    ttt      |  
+        +----+OOOOO-----+-DD---+---OOOOO-----+
+
+## The Algorithms Class Room
+    +--=========================--+
+    |                             |
+    |              x              |
+    |            #####            | # = desk or table
+    |                             | * = chair, unoccupied
+    |      x   x   *   *   x   x  | x = chair, occupied
+    |    #########################| Y = your seat
+    |    #########################| S = Smita's seat
+    |      *   *   *   *   x   x  | = = whiteboards
+    D                             | D = door
+    |      *   S   *   *   *   *  |
+    |    #########################|
+    |    #########################|
+    |      Y   *   *   *   *   *  |
+    |                             |
+    +-----------------------------+
+
+## The Data Structures Room
+    +--===================--+ . 
+    |                       | 
+    |           *           |
+    |         #####         |   # = desk or table
+    |                       | . * = chair    
+    |                       |   Y = your seat
+    |  ######### #########  |   E = Emily's seat
+    |   *  *  *   *  *  *   |   = = whiteboards
+    |                       | . D = door
+    |  ######### #########  |  
+    |   *  *  *   *  *  *   |  
+    |                       | 
+    |     ###### ######     | . 
+    |      *  *   E  Y      |
+    |                       | 
+    |                       |    
+    +--------------------D--+ .
+    .  .  .  .  .  .  .  .  .
+
+## The Data Structures Hall: Second Floor
+
+    +-----+-------+-------+-------+-------+-------+-----+
+    |  :  |  201  |  203  |  205  |  207  |  209  |  :  | D - door
+    |^^|vv|       |       |       |       |       |^^|vv| 
+    |^^|vv|       |       |       |       |       |^^|vv| ^ - up stair
+    |^^|vv|       | Data  |       |       |       |^^|vv| v - dn stair
+    |     |       | Strct |       |       |       |     | s - sink
+    +-DDD-+------D+------D+------D+------D+------D+-DDD-+ U - urinals
+    |                                                   | S - stalls
+    |                                                   |
+    +D----+----D+D------+D------+D------+-D------D-+----+
+    |  ss | ss  |  202  |  204  |  206  |   208    |    |
+    |     |     |       |       |       |          |    |
+    |U   S|S   S|       |       |       |          |    |
+    |U   S|S   S|       | Empty |       |          |Strg|
+    |U   S|S   S|       | Room  |       |          |Room|
+    +-----+-----+-------+-------+-------+----------+----+
+

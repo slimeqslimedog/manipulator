@@ -1,0 +1,203 @@
+# Possible Hookup Grid (yay for ASCII art)
+
+Whoa, whoa, wait a second. I just realized something.
+Why the hell should the player have to choose at the outset who they are attracted to? Why not let them decide as they go?
+
+Also... charge level. A good idea at the time, but... god, it's a major pain in the ass to track. Like, *major*. Maybe the light should indicate corruption level instead, from 0 to 3. 
+
+Obviously extremely subject to change.
+
+Any of the below can be combined. If no flags are present,
+the answer is that the person cannot be hooked up with, under
+any circumstances.
+
+"Poly" options (for romance; a harem is always possible w/manipulation):
+   n/a - Character can't be romanced
+    no - Not possible to convince
+   no+ - Not okay at first, but can be convinced
+         (If character sees you dating another before being convinced, anger
+          and/or jealousy will overtake them, and they'll be closed off to
+          you.)
+  open - Open relationship okay, but not group stuff
+ open+ - Open relationship okay, can convince into group
+   yes - Okay from get-go
+          
+              +-----------+-----------+-------+-------------------------------+
+              | Male      | Female    |       |                               |
+              +-----+-----+-----------+       |                               |
+              | Rom |Manip| Rom |Manip| Poly? | Notes                         |
+              +-----+-----+-----+-----+-------+-------------------------------+
+    Sister    |  Y? |  Y  |  Y? |  Y  |  yes  | *Might* have incest fetish?   |
+    Mother    |  N  |  Y! |  N  |  Y! |  n/a  |                               |
+              +-----+-----+-----+-----+-------+-------------------------------+
+    Amanda    |  Y  |  Y  |  Y  |  Y  |  no+  |                               |
+    Amy       |  Y  |  Y  |  N  |  Y! |  no+  | Daniel gets jealous/angry     |
+    Brett     |  Y? |  Y? |  Y? |  Y? |   ?   | If you change him             |
+    Daniel    |  N  |  Y! |  Y  |  Y  |  no+  | Amy gets jealous/angry        |
+    Dave      |  Y  | n/a |  N  |  N  |  yes* | Poly ok but remains gay       |
+    Emily     |  Y  |  N  |  Y  |  N  | open+ | Emily is immune to the device |
+    Kara      |  Y  |  Y  |  Y  |  Y  |  yes  | Manip could be dangerous...   |
+    Jennifer  |  N  |  Y  |  N  |  Y  |  yes* | Poly ok but remains 95% lez   |
+    Sarah     |  Y  |  Y  |  Y  |  Y  |   ?   |                               |
+    Smita     |  Y  |  Y  |  Y  |  Y  |  no+  | Romance Smita/Raz, not both   |
+    Raziel    |  Y  |  Y  |  Y  |  Y  |  no+  | Romance Smita/Raz, not both   |
+    Kathy     |  N  |  Y  |  N  |  Y  |  n/a  |                               |
+    Melissa   |  N  |  Y  |  N  |  Y  |  n/a  |                               |
+    Tiana     |  N  |  Y  |  N  |  Y  |  n/a  |                               |
+              +-----+-----+-----+-----+-------+-------------------------------+
+    Kincaid   |  Y? |  Y  |  Y? |  Y  |  no+  | Can basically corrupt her     |
+    Reynolds  |  Y? |  Y  |  N  |  Y  |  no+? |                               |
+    Lewis     |  Y  |  Y  |  Y  |  Y  |  yes  | She's down for anything       |
+    Smith     |  N  |  Y  |  Y? |  Y  |  no+? |                               |
+              +-----+-----+-----+-----+-------+-------------------------------+
+
+More specific notes:
+- If Amanda/Smita/Raz see you with others before you convince them into open relationships, you'll have to break it off with one or the other, and lose them forever.
+- For Amy/Daniel, you have to help them with each other *first*, before introducing them to the idea of a polycule
+- I've been using this idea of a "corruption" counter for the protagonist, and "manipulation" counter for other characters, but I'm starting to think I need to simplify that. I think there needs to be a simpler level system:
+    + Level 0 - Default. Romance option, if any, is fine.
+    + Level 1 - Any "real" romance for the character is out the window. You can still pursue romantic options with others.
+    + Level 2 - Only possible after the MC is at C1. Any "real" romance for *any* character is out the window. Maybe other characters learn about it, or maybe you're addicted enough to the device that romance options are simply locked off. There *might* be exceptions to this rule, but I'm not sure.
+    + Levels 3+ - Each is only possible when the MC hits the previous corruption level. Recruits them into the eventual harem.
+    + Due to CHYOA's lack of boolean operators for if statements, player corruption levels are specified by `c1` through `c5` flags, rather than a number.
+- Likewise, I have social (romance) levels, but haven't really defined them, so here we go. They'll vary a bit from character to character, as I want levels for each, but obviously some folks (like Kara) start out way closer to you than others. So here are the levels for people you've just met:
+    + Level 0 - Never met you. Starting level for most people.
+    + Level 1 - On friendly terms with you, but that's it.
+    + Level 2 - Very friendly. Can propose a date here.
+    + Level 3 - Date proposed, but not gone on yet.
+    + Level 4 - Had a date, can propose second date.
+    + Level 5 - Had second date, officially in relationship.
+- For "major" characters, here are some tentative "level" triggers for corruption. Some characters have triggers beyond L3.
+    + Sister
+        * There's a sort of "L0.5" where you accidentally make her comfortable with getting undressed behind you to hop in the shower. It occurs automatically and is basically part of L0.
+        * L1: make her a nudist at home
+        * L2: sexual teasing
+        * L3: manual/oral sex
+        * L4: intercourse
+    + Mother: same as sister but without that "L0.5" trigger
+    + Family: There's a separate `family_nlevel` that equates to:
+        * N0: Mother, sister both at L0.
+        * N1: Sister at L1. Mother still at L0.
+        * N2: Sister at L1 or L2; mother at L1.
+        * N3: Mother, sister both at L2.
+    + Amanda
+        * L1: Make her kiss you passionately in the library.
+        * L2: Choose "believe this is normal" after the explicit health class. Alternately, be forced to manipulate her into accepting your "relationship" with Smita, or manipulate her into oral sex in the library.
+        * L3: Manipulate her into sex in the library
+        * L4: Manipulate her into sex during health class, as the "live demonstration"
+    + Amy and Daniel
+        * L1: Manipulate them into making out together in art class. Seems a bit extreme for level 1, but I imagine people already expect Ms. Lewis's classes to be a bit... unconventional.
+        * L2: Get them to be models for the class
+        * L3: Get them to be *active* models for the class
+        * L4: Cause an art class orgy
+    + Brett
+        * L1: ?
+        * L2: ?
+        * L3: ?
+        * L4: ?
+    + Dave
+        * A tough one as he isn't gonna need much manipulation
+        * L1: Maybe something sexual in public. He's an administrative assistant, so word of that could cause him to lose his job.
+        * L2: ?
+        * L3: ?
+        * L4: ?
+    + Emily
+        * Can't manipulate her, so no triggers from her.
+        * This is the one place where I'm unsure of L2 romance options. If she's excited by the Manipulator's power (i.e. you chose the "subtle" route), L2 may actually *increase* your chances with her. On the other hand, if she's wary of its power (i.e. you chose the "blatant" route), she's going to cause serious trouble for you.
+    + Kara
+        * L1: Literally any sort of manipulation will destroy your chances of romance with her, because she trusts you implicitly. 
+        * L2: Manipulate her into manual/oral sex with you. 
+        * L3: Manipulate her into intercourse with you.
+        * L4: Manipulate her into participating in any sort of group sex with you. 
+    + Jennifer
+        * L1: ?
+        * L2: Get her and your sister to put on a show (you can't romance her, but this does stop her from joining a polycule later)
+        * L3: Get her to participate in group sex with you and sister (and Kara if she is present)
+        * L4: ?
+    + Sarah
+        * L1: Turn her into an ego/nymphomaniac
+        * L2: ?
+        * L3: ?
+        * L4: ?
+    + Smita or Raziel
+        * L1: *Not* fixing the underwear flash, so they think you're dating. 
+        * L2: Convince them you're in an open relationship.
+        * L3: ?
+        * L4: ?
+    + Kathy, Melissa, and Tiana
+        * L1: Choose "believe this is normal" after the explicit health class, and then manipulate them all to come to the next class sans underwear (Can't romance them though, just need it for L2)
+        * L2: Cause a locker room peep show (just looking)
+        * L3: Cause a locker room peep show (lesbian fun)
+        * L3: Cause a locker room orgy
+    + Kincaid
+        * L1: Make her aroused during class (*not* the initial "loosen up" bit)
+        * L2: Get some "special tutoring" from her
+        * L3: ?
+        * L4: ?
+    + Reynolds
+        * L1: Making the class "explicit", and then not wiping memories
+        * L2: Making the second class have live demonstrations
+        * L3:
+        * L4: Health class full orgy 
+    + Lewis
+        * Really unsure, since she doesn't really need manipulation to be convinced of anything
+        * L1: ?
+        * L2: Get Amy/Daniel to be "live models" for the class.
+        * L3: Get her to join Amy and Daniel in their "modeling".
+        * L4: Art class orgy
+    + Smith
+        * L1: Make him aroused during class
+        * L2: Getting some "special tutoring" from him
+        * L3: ?
+        * L4: ?
+
+# Quick reminders of archetypes I'm looking for
+
+## Classmates
+
+### Amanda
+Brunette, or dark blonde. Glasses (probably). Relatively plain, average height, relatively thin weight, average breasts. Hair probably about shoulder length, probably done up with simple hair tie.
+
+### Amy
+No idea yet. Thinking small, pixie-cut. Blonde? Brunette? Dunno.
+
+### Emily
+Blonde, chubby, bubbly, enthusiastic. Slate-gray eyes with gold flecks in them. Dyed streak of hair. Hair extends just past her shoulders.
+
+### Kara (friend)
+Redhead, curvy, very curly/wavy hair, slightly wild, not sure of hair length yet. Maybe glasses, also not sure.
+
+### Jennifer (sister's BFF)
+No freaking clue yet.
+
+### Laura (sister)
+Blonde, tall, thin, ponytail, red lipstick
+
+### Sarah
+Petite, Chinese or Korean, short black hair -- almost boy-cut.
+
+### Smita
+Tall, thin, alluring, mysterious Indian girl. Long black hair. No glasses.
+
+## Older Characters
+
+### Helen (mother)
+MILF, relatively large, short dark hair.
+
+### Miss Kincaid (teacher, math)
+Archetypal "stern but hot teacher". Brunette hair tied up into bun.
+
+### Ms. Reynolds (teacher, health)
+Blonde, long hair, body type similar to Helen, maybe a bit thinner.
+
+### Ms. Lewis (teacher, art)
+Ex-hippie, cougar, possibly black.
+
+## "Minor" Characters
+
+### Kathy
+
+### Melissa
+
+### Tiana
+
