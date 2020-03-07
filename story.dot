@@ -57,7 +57,6 @@ digraph manipulator {
 
       "downstairs" [label="head downstairs", URL="https://chyoa.com/chapter/You-head-downstairs.681564"];
       "boy" -> "downstairs";
-      "girl" -> "downstairs";
 
       "package" [label="check out the mysterious package first", URL="https://chyoa.com/chapter/You-check-out-the-mysterious-package-first.681600"];
       "downstairs" -> "package";
@@ -159,6 +158,21 @@ digraph manipulator {
       "monday home for lunch" [label="arrive at home for lunch", URL="https://chyoa.com/chapter/Thankfully%2C-you-arrive-at-your-house.690910"];
       "monday bump into amanda" -> "monday home for lunch" [label="smita_mlevel == 0"];
       "monday bump into smita" -> "monday home for lunch";
+
+      // Oops, wrote myself into a bit of a conundrum here. Sister gets home,
+      // what do you do? Looks like I might be pushing some stuff up a bit...
+      "monday greet sister" [label="greet your sister who has arrived home from school"];
+      "monday home for lunch" -> "monday greet sister";
+
+      // You can decide not to manipulate your sister, and just talk with her
+      // until your mother gets home...
+      "monday sister talk" [label="have a conversation with your sister"];
+      "monday greet sister" -> "monday sister talk";
+
+      // ... or you have the option here of making your sister into a casual
+      // home nudist.
+      "monday sister nudist" [label="convince your sister to shed the clothes\n\nsister_mlevel = 1\nsister_nudist = true\nfamily_nlevel = 1\nc1 = true", fillcolor=yellow];
+      "monday greet sister" -> "monday sister nudist";
     }
 
     subgraph "Unwritten Chapters" {
@@ -172,29 +186,18 @@ digraph manipulator {
       "monday emily subtle manip" -> "monday emily stay in class";
       "monday emily stay in class" -> "monday emily run after her";
 
-      // Oops, wrote myself into a bit of a conundrum here. Sister gets home,
-      // what do you do? Looks like I might be pushing some stuff up a bit...
-      "monday greet sister" [label="greet your sister who has arrived home from school"];
-      "monday home for lunch" -> "monday greet sister";
-
-      // You can decide not to manipulate your sister, and just talk with her
-      // until your mother gets home...
-      "monday sister talk" [label="have a conversation with your sister"];
-      "monday greet sister" -> "monday sister talk";
-
-      // ... or you have the option here of making your sister into a casual
-      // home nudist. If you do, when your mother gets home, she's... a bit
-      // surprised.
-      "monday sister nudist" [label="convince your sister to shed the clothes\n\nsister_mlevel = 1\nsister_nudist = true\nfamily_nlevel = 1\nc1 = true", fillcolor=yellow];
-      "monday greet sister" -> "monday sister nudist";
+      // Re your sister being a nudist... if you go that route, when your mother
+      // gets home, she's... a bit surprised.
+      "monday mother gets home" [label="hear your mom get home"];
+      "monday sister nudist" -> "monday mother gets home";
 
       // You have the option of pushing your mom into accepting it...
       "monday mother accept" [label="convince your mother to accept your sister's choice", fillcolor=palegoldenrod];
-      "monday sister nudist" -> "monday mother accept";
+      "monday mother gets home" -> "monday mother accept";
 
       // ...or having her join in.
       "monday mother nudist" [label="convince your mother to also shed the clothes\n\nmother_mlevel = 1\nmother_nudist = true\nfamily_nlevel = 2\nc1 = true", fillcolor=yellow];
-      "monday sister nudist" -> "monday mother nudist";
+      "monday mother gets home" -> "monday mother nudist";
 
       // Then you either have a (relatively) normal dinner... (if your sister is
       // a nudist, your mom insists on clothing at the dinner table)
